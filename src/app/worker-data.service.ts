@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ApiUtilityService } from './api-utility.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Job_Entity } from './job-detail';
+
 @Injectable()
 export class WorkerDataService {
 
@@ -10,7 +12,7 @@ export class WorkerDataService {
   /**
    * To get the list of jobs out there.
    */
-  getJobList(): Observable<any> {
+  getJobList(): Observable<Job_Entity[]> {
     return this.api.get('api/job');
   }
 
