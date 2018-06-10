@@ -1,31 +1,43 @@
-<div style="text-align:center">
-  <h1>
-    Welcome to demo!
-  </h1>
-</div>
-
-<!-- <ul>
-  <li *ngFor="let order of workOrders">{{order}}</li>
-</ul> -->
-<button mat-button [routerLink]="['../new']">New Job</button>
-<!-- 
-<mat-chip-list [multiple]="false">
-  <mat-chip *ngFor="let status of statusList;let i=index" (click)="onStautsChange(statusList[i])" [value]="status.key" [selected]="statusList[i].state">{{status.key}}</mat-chip>
-</mat-chip-list> -->
-
-<mat-button-toggle-group name="fontStyle" (change)="onStautsChange()" [(ngModel)]="selectedStatus" aria-label="Font Style">
-  <mat-button-toggle *ngFor="let status of statusList;let i=index" [value]="status">{{status.key}}</mat-button-toggle>
-  <!-- <mat-button-toggle value="italic">Italic</mat-button-toggle>
-  <mat-button-toggle value="underline">Underline</mat-button-toggle> -->
-</mat-button-toggle-group>
 <!-- {{selectedStatus}} -->
-<mat-list>
-  <mat-list-item *ngFor="let work of workOrders;let i=index" (click)="openDialog(work.Id,i)">
-    <mat-icon matListIcon>folder</mat-icon>
-    <h3 matLine> {{work.JobName}} </h3>
-    <p matLine>
-      <span> {{work.Status}} </span>
-      <span class="demo-2"> -- {{work.CategoryId}} </span>
-    </p>
-  </mat-list-item>
-</mat-list>
+
+<div fxLayout="row">
+  <div fxFlex.gt-sm="100%">
+    <mat-card>
+      <mat-toolbar>
+        <span>Job List</span>
+        <span fxFlex></span>
+
+        <button mat-raised-button color="primary" [routerLink]="['../new']">
+          <mat-icon>add</mat-icon> Create Job
+        </button>
+      </mat-toolbar>
+      <mat-card-content>
+        <section class="example-section">
+          <label class="example-margin">Status:</label>&nbsp;
+          <mat-button-toggle-group name="fontStyle" (change)="onStautsChange()" [(ngModel)]="selectedStatus" aria-label="Font Style">
+            <mat-button-toggle *ngFor="let status of statusList;let i=index" [value]="status">{{status.key}}</mat-button-toggle>
+          </mat-button-toggle-group>
+        </section>
+        <mat-list style="height: 400px;overflow-y: scroll;">
+          <mat-list-item *ngFor="let work of workOrders;let i=index">
+            <mat-icon class="success_class" *ngIf="work.Status==='Done'" matListIcon>cloud_done</mat-icon>
+            <mat-icon class="progress_class" *ngIf="work.Status==='In Progress'" matListIcon>timelapse</mat-icon>
+            <mat-icon class="new_class" *ngIf="work.Status==='New'" matListIcon>fiber_new</mat-icon>
+            <h3 matLine> {{work.JobName}} </h3>
+            <p matLine>
+              <span *ngIf="work.Status==='Done'" mat-button class="success_class">
+                {{work.Status}}</span>
+              <span *ngIf="work.Status==='In Progress'" mat-button class="progress_class">
+                {{work.Status}}</span>
+              <span *ngIf="work.Status==='New'" mat-button class="new_class">
+                {{work.Status}}</span>
+            </p>
+            <button (click)="openDialog(work.Id,i)" mat-icon-button color="primary">
+              <mat-icon aria-label="Example icon-button with a heart icon">remove_red_eye</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiUtilityService } from './api-utility.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Job_Entity } from '../models/job-detail';
+import { Job_Entity, JobDetail } from '../models/job-detail';
 
 @Injectable()
 export class WorkerDataService {
@@ -20,7 +20,7 @@ export class WorkerDataService {
    * Gets the job detail based on job id.
    * @param id - an id of the job
    */
-  getJobById(id: Number): Observable<any> {
+  getJobById(id: Number): Observable<JobDetail> {
     return this.api.get('api/job/GetJobById/' + id);
   }
 
@@ -68,7 +68,7 @@ export class WorkerDataService {
    * To get the list of jobs based on status.
    * @param status - name of the status for which job has to be fetched.
    */
-  getJobByStatus(status: String): Observable<any> {
+  getJobByStatus(status: String): Observable<Job_Entity[]> {
     return this.api.get('api/job/GetJobByStatus/' + status);
   }
 }

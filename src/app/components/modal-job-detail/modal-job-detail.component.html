@@ -1,35 +1,50 @@
-<h1 mat-dialog-title>Favorite Animal</h1>
+<h1 mat-dialog-title>{{jobDetail.JobName}}</h1>
 <div mat-dialog-content>
 
   <div *ngIf="jobDetail" class="example-container">
-
-    <mat-label>
-      {{jobDetail.Id}}
-    </mat-label>
-    <br>
-    <mat-label>
-      {{jobDetail.JobName}}
-    </mat-label>
-    <br>
-    <mat-label>
-      {{jobDetail.Category.CategoryName}}
-    </mat-label>
-    <br>
-    <mat-label>
-      {{jobDetail.SupervisorName}}
-    </mat-label>
-    <br>
-    <mat-form-field>
-      <mat-select [(ngModel)]="jobDetail.Status">
-        <mat-option *ngFor="let status of statusList" [value]="status">
-          {{ status }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <table style="width: 400px;">
+      <tr>
+        <td>
+          <label class="example-margin">
+            <b> Job ID:</b>
+          </label>
+        </td>
+        <td> {{jobDetail.Id}}</td>
+      </tr>
+      <tr>
+        <td>
+          <label class="example-margin">
+            <b>Category:</b>
+          </label>
+        </td>
+        <td>{{jobDetail.Category.CategoryName}}</td>
+      </tr>
+      <tr>
+        <td>
+          <label class="example-margin">
+            <b>Supervisor Name:</b>
+          </label>
+        </td>
+        <td>{{jobDetail.SupervisorName}}</td>
+      </tr>
+      <tr>
+        <td>
+          <label class="example-margin">
+            <b>Status:</b>
+          </label>
+        </td>
+        <td>
+          <mat-select [(ngModel)]="jobDetail.Status">
+            <mat-option *ngFor="let status of statusList" [value]="status">
+              {{ status }}
+            </mat-option>
+          </mat-select>
+        </td>
+      </tr>
+    </table>
   </div>
 </div>
-<mat-dialog-actions>
+<mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="true">Close</button>
-  <button mat-button (click)="updateStatus()">Save</button>
-
+  <button mat-raised-button color="primary" (click)="updateStatus()">Save</button>
 </mat-dialog-actions>

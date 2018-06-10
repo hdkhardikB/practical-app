@@ -11,6 +11,9 @@ export class ApiUtilityService {
   ) { }
 
 
+  /**
+   * To set headers in requst.
+   */
   private setHeaders(): Headers {
     const headersConfig = {
       'Content-Type': 'application/json',
@@ -19,26 +22,33 @@ export class ApiUtilityService {
     return new Headers(headersConfig);
   }
 
+  /**
+   * To set errors during API call.
+   * @param result 
+   */
   private formatErrors<T>(result?: T) {
     return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
       console.log(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-
-
-      // Let the app keep running by returning an empty result.
       return of(result as T);
     };
   }
 
+  /**
+   * To make an HTTP get call.
+   * @param path - a url to be called.
+   * @param params - parameters to be passed in query string.
+   */
   get(path: string, params: URLSearchParams = new URLSearchParams()): Observable<any> {
     return this.http.get(`${environment.apiUrl}${path}`, { headers: this.setHeaders(), search: params }).
       pipe(map((resp: Response) => resp.json()), catchError(this.formatErrors<any>()));
 
   }
 
+  /**
+   * To make an HTTP Put call.
+   * @param path - a url to be called.
+   * @param body - put request body to passed.
+   */
   put(path: string, body: Object = {}): Observable<any> {
     return this.http.put(
       `${environment.apiUrl}${path}`,
@@ -47,6 +57,11 @@ export class ApiUtilityService {
     ).pipe(map((resp: Response) => resp.json()), catchError(this.formatErrors<any>()));
   }
 
+  /**
+   * To make an HTTP Post call.
+   * @param path - a url to be called.
+   * @param body - post request body to passed.
+   */
   post(path: string, body: Object = {}): Observable<any> {
     return this.http.post(
       `${environment.apiUrl}${path}`,
@@ -56,6 +71,10 @@ export class ApiUtilityService {
       pipe(map((resp: Response) => resp.json()), catchError(this.formatErrors<any>()));
   }
 
+  /**
+   * To make an HTTP delete call.
+   * @param path - a url to be called.
+   */
   delete(path): Observable<any> {
     return this.http.delete(
       `${environment.apiUrl}${path}`,

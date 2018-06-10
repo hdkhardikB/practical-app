@@ -36,10 +36,13 @@ export class NewJobComponent implements OnInit {
     });
   }
 
+  /**
+   * To save new job.
+   */
   saveJob() {
     this.worker.createJob(this.jobDetail).subscribe((data: any) => {
       this.toastr.success('Job has been created successfully', 'Success');
-      this.router.navigate(['/main']);
+      this.router.navigate(['/jobs']);
     }, (err: any) => {
       this.toastr.error('There was an error serving your request.', 'Error');
     });

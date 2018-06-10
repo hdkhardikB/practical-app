@@ -12,19 +12,21 @@ export class ModalJobDetailComponent implements OnInit {
   jobDetail: Job_Entity;
   statusList = ['New', 'In Progress', 'Done'];
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private worker: WorkerDataService, private toast: ToastrService, public dialogRef: MatDialogRef<ModalJobDetailComponent>) {
-    this.worker.getJobById(data.jobId).subscribe((resp: Job_Entity) => {
-      this.jobDetail = resp;
-    });
+    this.jobDetail = data;
   }
 
   ngOnInit() {
   }
+
+  /**
+   * Updates the status of job.
+   */
   updateStatus() {
     this.worker.updateJobStatus(this.jobDetail.Status, this.jobDetail.Id).subscribe(() => {
-      this.toast.success("Job status updated successfully.","Success");
+      this.toast.success("Job status updated successfully.", "Success");
       this.dialogRef.close({ jobId: this.jobDetail.Id, status: this.jobDetail.Status });
     }, (err: any) => {
-      this.toast.success("There was an error serving your request.","Error");
+      this.toast.success("There was an error serving your request.", "Error");
     })
   }
 }

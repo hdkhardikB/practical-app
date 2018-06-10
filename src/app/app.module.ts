@@ -1,37 +1,45 @@
+import * as $ from 'jquery';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { Headers, HttpModule, Response, URLSearchParams } from '@angular/http';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { AppRoutes } from './app.routing';
 import { AppComponent } from './app.component';
-import { ListViewComponent } from './components/list-view/list-view.component';
-import { WorkerDataService } from './services/worker-data.service';
-import { ApiUtilityService } from './services/api-utility.service';
-import { AppRoutingModule } from './app-routing.module';
-import { MatButtonModule, MatSelectModule, MatCheckboxModule, MatButtonToggleModule, MatListModule, MatIconModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatDialogModule } from '@angular/material';
+import { Headers, HttpModule, Response, URLSearchParams } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import 'hammerjs';
-import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
-import { ModalJobDetailComponent } from './components/modal-job-detail/modal-job-detail.component';
-import { NewJobComponent } from './components/new-job/new-job.component';
-import { ToastrModule } from 'ngx-toastr';
+import { FullComponent } from './layouts/full/full.component';
+import { AppSidebarComponent } from './layouts/full/sidebar/sidebar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DemoMaterialModule} from './demo-material-module';
+
+import { SharedModule } from './shared/shared.module';
+import { SpinnerComponent } from './shared/spinner.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    ListViewComponent,
-    ModalJobDetailComponent,
-    NewJobComponent
+    FullComponent,
+    SpinnerComponent,
+    AppSidebarComponent  
   ],
   imports: [
-    BrowserModule, BrowserAnimationsModule,
-    HttpModule, FormsModule, ReactiveFormsModule, MatSelectModule, ToastrModule.forRoot({
-      timeOut: 5000,
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-    }),
-    AppRoutingModule, MatButtonModule, MatCheckboxModule, MatListModule, MatButtonToggleModule, MatIconModule, MatFormFieldModule, MatInputModule, MatToolbarModule, FlexLayoutModule, MatDialogModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    DemoMaterialModule,
+    FormsModule,HttpModule,
+    FlexLayoutModule,  
+    HttpClientModule,
+    SharedModule,  
+    RouterModule.forRoot(AppRoutes)  
   ],
-  entryComponents: [ModalJobDetailComponent],
-  providers: [WorkerDataService, ApiUtilityService],
+  providers: [
+  {
+    provide: LocationStrategy,
+    useClass: HashLocationStrategy
+  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,4 +7,3 @@ export const environment = {
   production: false,
   apiUrl: 'http://apitest.hcshub.com/',
 };
-
