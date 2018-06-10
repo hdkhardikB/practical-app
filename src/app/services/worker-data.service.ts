@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiUtilityService } from './api-utility.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Job_Entity } from './job-detail';
+import { Job_Entity } from '../models/job-detail';
 
 @Injectable()
 export class WorkerDataService {
@@ -46,7 +46,7 @@ export class WorkerDataService {
    * @param id - an id of the job to be updated.
    */
   updateJobStatus(status: String, id: Number): Observable<any> {
-    return this.api.post('api/Job/PutJob/' + id + '/' + status);
+    return this.api.get('api/Job/PutJob/' + id + '/' + status);
   }
 
   /**

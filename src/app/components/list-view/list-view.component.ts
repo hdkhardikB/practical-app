@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { WorkerDataService } from '../../worker-data.service';
-import { Job_Entity } from '../../job-detail';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { WorkerDataService } from '../../services/worker-data.service';
+import { Job_Entity } from '../../models/job-detail';
 import { MatDialog } from '@angular/material';
 import { ModalJobDetailComponent } from '../modal-job-detail/modal-job-detail.component';
 @Component({
@@ -10,19 +10,36 @@ import { ModalJobDetailComponent } from '../modal-job-detail/modal-job-detail.co
 })
 export class ListViewComponent implements OnInit {
   workOrders: Job_Entity[];
-  messages = [{ form: 'hardik', subject: 'test', content: 'hello there' }, { form: 'hardik', subject: 'test', content: 'hello there' }, { form: 'hardik', subject: 'test', content: 'hello there' }, { form: 'hardik', subject: 'test', content: 'hello there' }]
-  constructor(private worker: WorkerDataService, public dialog: MatDialog) { }
+  statusList: Array<any> = [{ key: 'All', value: '' }, { key: 'New', value: 'New' }, { key: 'In Progress', value: 'In Progress' }, { key: 'Done', value: 'Done' }];
+  selectedStatus = this.statusList[0];
+  constructor(private worker: WorkerDataService, public dialog: MatDialog, private _changeDetectionRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.worker.getJobList().subscribe((data: Job_Entity[]) => {
       if (data)
         this.workOrders = data;
     });
+    this.worker.getCategories
   }
-  openDialog() {
-    this.dialog.open(ModalJobDetailComponent, {
+
+  onStautsChange() {
+    this.worker.getJobByStatus(this.selectedStatus.value).subscribe((data: Job_Entity[]) => {
+      if (data) {
+        this.workOrders = data;
+      }
+    });
+  }
+
+  openDialog(jobId: Number, itemIndex: any) {
+    let dialog = this.dialog.open(ModalJobDetailComponent, {
       data: {
-        animal: 'panda'
+        jobId: jobId
+      }
+    });
+
+    dialog.afterClosed().subscribe((data: any) => {
+      if (data) {
+        this.workOrders[itemIndex].Status = data.status;
       }
     });
   }

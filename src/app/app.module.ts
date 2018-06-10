@@ -4,23 +4,31 @@ import { NgModule } from '@angular/core';
 import { Headers, HttpModule, Response, URLSearchParams } from '@angular/http';
 import { AppComponent } from './app.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
-import { WorkerDataService } from './worker-data.service';
-import { ApiUtilityService } from './api-utility.service';
+import { WorkerDataService } from './services/worker-data.service';
+import { ApiUtilityService } from './services/api-utility.service';
 import { AppRoutingModule } from './app-routing.module';
-import { MatButtonModule, MatCheckboxModule, MatListModule, MatIconModule, MatInputModule, MatToolbarModule, MatDialogModule } from '@angular/material';
+import { MatButtonModule, MatSelectModule, MatCheckboxModule, MatButtonToggleModule, MatListModule, MatIconModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatDialogModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import 'hammerjs';
+import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { ModalJobDetailComponent } from './components/modal-job-detail/modal-job-detail.component';
+import { NewJobComponent } from './components/new-job/new-job.component';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
     ListViewComponent,
-    ModalJobDetailComponent
+    ModalJobDetailComponent,
+    NewJobComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,
-    HttpModule,
-    AppRoutingModule, MatButtonModule, MatCheckboxModule, MatListModule, MatIconModule, MatInputModule, MatToolbarModule, FlexLayoutModule, MatDialogModule
+    HttpModule, FormsModule, ReactiveFormsModule, MatSelectModule, ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
+    AppRoutingModule, MatButtonModule, MatCheckboxModule, MatListModule, MatButtonToggleModule, MatIconModule, MatFormFieldModule, MatInputModule, MatToolbarModule, FlexLayoutModule, MatDialogModule
   ],
   entryComponents: [ModalJobDetailComponent],
   providers: [WorkerDataService, ApiUtilityService],

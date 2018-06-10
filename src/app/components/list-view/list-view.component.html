@@ -7,9 +7,20 @@
 <!-- <ul>
   <li *ngFor="let order of workOrders">{{order}}</li>
 </ul> -->
+<button mat-button [routerLink]="['../new']">New Job</button>
+<!-- 
+<mat-chip-list [multiple]="false">
+  <mat-chip *ngFor="let status of statusList;let i=index" (click)="onStautsChange(statusList[i])" [value]="status.key" [selected]="statusList[i].state">{{status.key}}</mat-chip>
+</mat-chip-list> -->
 
+<mat-button-toggle-group name="fontStyle" (change)="onStautsChange()" [(ngModel)]="selectedStatus" aria-label="Font Style">
+  <mat-button-toggle *ngFor="let status of statusList;let i=index" [value]="status">{{status.key}}</mat-button-toggle>
+  <!-- <mat-button-toggle value="italic">Italic</mat-button-toggle>
+  <mat-button-toggle value="underline">Underline</mat-button-toggle> -->
+</mat-button-toggle-group>
+<!-- {{selectedStatus}} -->
 <mat-list>
-  <mat-list-item *ngFor="let work of workOrders" (click)="openDialog()">
+  <mat-list-item *ngFor="let work of workOrders;let i=index" (click)="openDialog(work.Id,i)">
     <mat-icon matListIcon>folder</mat-icon>
     <h3 matLine> {{work.JobName}} </h3>
     <p matLine>

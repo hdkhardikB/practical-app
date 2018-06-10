@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 import { Headers, Http, Response, URLSearchParams } from '@angular/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
