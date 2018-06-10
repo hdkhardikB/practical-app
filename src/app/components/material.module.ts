@@ -17,7 +17,7 @@ import { ApiUtilityService } from '../services/api-utility.service';
 import { NewJobComponent } from './new-job/new-job.component';
 import { ModalJobDetailComponent } from './modal-job-detail/modal-job-detail.component';
 import { ToastrModule } from 'ngx-toastr';
-
+import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,8 +26,8 @@ import { ToastrModule } from 'ngx-toastr';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
-    CdkTableModule,ToastrModule.forRoot({
+    FlexLayoutModule, NgxSpinnerModule,
+    CdkTableModule, ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
@@ -41,7 +41,7 @@ import { ToastrModule } from 'ngx-toastr';
   ],
   declarations: [
     NewJobComponent,
-    ListViewComponent,ModalJobDetailComponent
+    ListViewComponent, ModalJobDetailComponent
   ]
 })
 

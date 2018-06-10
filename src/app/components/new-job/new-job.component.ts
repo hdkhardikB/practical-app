@@ -6,6 +6,7 @@ import { ModalJobDetailComponent } from '../modal-job-detail/modal-job-detail.co
 import { CustomValidator } from '../../custom-validator';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-new-job',
   templateUrl: './new-job.component.html',
@@ -16,7 +17,7 @@ export class NewJobComponent implements OnInit {
   jobDetail: JobDetail = new JobDetail();
 
   jobForm: FormGroup;
-  constructor(private worker: WorkerDataService, private fb: FormBuilder, private router: Router, private toastr: ToastrService) {
+  constructor(private worker: WorkerDataService, private spinner: NgxSpinnerService, private fb: FormBuilder, private router: Router, private toastr: ToastrService) {
     this.worker.getCategories().subscribe((res: any) => {
       this.categories = res;
     });
@@ -40,10 +41,13 @@ export class NewJobComponent implements OnInit {
    * To save new job.
    */
   saveJob() {
+    this.spinner.show();
     this.worker.createJob(this.jobDetail).subscribe((data: any) => {
+      this.spinner.hide();
       this.toastr.success('Job has been created successfully', 'Success');
       this.router.navigate(['/jobs']);
     }, (err: any) => {
+      this.spinner.hide();
       this.toastr.error('There was an error serving your request.', 'Error');
     });
   }

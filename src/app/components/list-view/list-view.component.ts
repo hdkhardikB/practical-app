@@ -4,7 +4,7 @@ import { Job_Entity } from '../../models/job-detail';
 import { MatDialog } from '@angular/material';
 import { ModalJobDetailComponent } from '../modal-job-detail/modal-job-detail.component';
 import { ToastrService } from 'ngx-toastr';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-list-view',
   templateUrl: './list-view.component.html',
@@ -14,13 +14,16 @@ export class ListViewComponent implements OnInit {
   workOrders: Job_Entity[];
   statusList: Array<any> = [{ key: 'All', value: '' }, { key: 'New', value: 'New' }, { key: 'In Progress', value: 'In Progress' }, { key: 'Done', value: 'Done' }];
   selectedStatus = this.statusList[0];
-  constructor(private worker: WorkerDataService, private toaster: ToastrService, public dialog: MatDialog, private _changeDetectionRef: ChangeDetectorRef) { }
+  constructor(private worker: WorkerDataService, private spinner: NgxSpinnerService, private toaster: ToastrService, public dialog: MatDialog, private _changeDetectionRef: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.worker.getJobList().subscribe((data: Job_Entity[]) => {
       if (data)
         this.workOrders = data;
+      this.spinner.hide();
     }, (err: any) => {
+      this.spinner.hide();
       this.toaster.error('There was an error serving you request.', 'Error');
     });
   }
@@ -29,11 +32,14 @@ export class ListViewComponent implements OnInit {
    * An event to be called on change of status.
    */
   onStautsChange() {
+    this.spinner.show();
     this.worker.getJobByStatus(this.selectedStatus.value).subscribe((data: Job_Entity[]) => {
       if (data) {
         this.workOrders = data;
       }
+      this.spinner.hide();      
     }, (err: any) => {
+      this.spinner.hide();
       this.toaster.error('There was an error serving you request.', 'Error');
     });
   }
@@ -44,9 +50,10 @@ export class ListViewComponent implements OnInit {
    * @param itemIndex - an index of item in aray.
    */
   openDialog(jobId: Number, itemIndex: any) {
-
+    this.spinner.show();
     this.worker.getJobById(jobId).subscribe((resp: Job_Entity) => {
       let jobDetail = resp;
+      this.spinner.hide();
       let dialog = this.dialog.open(ModalJobDetailComponent, {
         data: jobDetail
       });
@@ -57,6 +64,7 @@ export class ListViewComponent implements OnInit {
         }
       });
     }, (err: any) => {
+      this.spinner.hide();
       this.toaster.error('There was an error serving you request.', 'Error');
     });
 
